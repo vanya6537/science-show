@@ -16,12 +16,27 @@ export const Shows = () => {
   const handleShowBooking = (showTitle: string) => {
     // Get existing message from sessionStorage
     const existingMessage = sessionStorage.getItem('bookingShowMessage') || '';
+    
+    // Check if this show is already in the message
+    if (existingMessage.includes(showTitle)) {
+      // Show is already added, just scroll to booking
+      const bookingSection = document.getElementById('booking');
+      if (bookingSection) {
+        bookingSection.scrollIntoView({ behavior: 'smooth' });
+      }
+      return;
+    }
+    
     // Append new show to the list
     const newMessage = existingMessage 
       ? existingMessage + `\n✓ ${showTitle}`
       : `Заинтересован в шоу:\n✓ ${showTitle}`;
     
     sessionStorage.setItem('bookingShowMessage', newMessage);
+    
+    // Dispatch custom event to notify Booking component
+    window.dispatchEvent(new Event('showAdded'));
+    
     // Scroll to booking section
     const bookingSection = document.getElementById('booking');
     if (bookingSection) {

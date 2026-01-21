@@ -43,10 +43,34 @@ export const Booking = () => {
 
   // Получение текста сообщения из sessionStorage (устанавливается при клике на услугу)
   useEffect(() => {
+    // Initial load
     const savedMessage = sessionStorage.getItem('bookingShowMessage');
     if (savedMessage) {
       setFormData(prev => ({ ...prev, message: savedMessage }));
     }
+
+    // Listen for storage changes from other tabs/windows
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'bookingShowMessage' && e.newValue) {
+        setFormData(prev => ({ ...prev, message: e.newValue }));
+      }
+    };
+
+    // Listen for custom event from Shows component (same tab)
+    const handleShowAdded = () => {
+      const savedMessage = sessionStorage.getItem('bookingShowMessage');
+      if (savedMessage) {
+        setFormData(prev => ({ ...prev, message: savedMessage }));
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('showAdded', handleShowAdded);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('showAdded', handleShowAdded);
+    };
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
