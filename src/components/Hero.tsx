@@ -36,7 +36,7 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen bg-neon-darker overflow-hidden flex items-center">
+    <section id="home" className="relative min-h-[85vh] md:min-h-screen bg-neon-darker overflow-hidden flex items-center py-4 sm:py-6 md:py-0">
       {/* Animated background lightning */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -80,7 +80,7 @@ export const Hero = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-2 sm:mb-3 md:mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow"
           >
             {t('hero.title')}
           </motion.h1>
@@ -88,7 +88,7 @@ export const Hero = () => {
           {/* Interactive Hue Slider */}
           <motion.div
             variants={itemVariants}
-            className="flex justify-center mb-12"
+            className="flex justify-center mb-3 sm:mb-4 md:mb-12"
           >
             <ElasticHueSlider
               value={lightningHue}
@@ -103,9 +103,9 @@ export const Hero = () => {
           {/* Neon style subtitle with word-by-word hover gradient effect */}
           <motion.div
             variants={itemVariants}
-            className="flex justify-center mb-12"
+            className="flex justify-center mb-4 sm:mb-6 md:mb-12"
           >
-            <div className="text-2xl md:text-4xl font-black tracking-widest drop-shadow-2xl flex flex-wrap justify-center">
+            <div className="text-xl sm:text-2xl md:text-4xl font-black tracking-widest drop-shadow-2xl flex flex-wrap justify-center">
               {t('hero.neonSubtitle').split(' ').map((word, idx) => (
                 <div key={idx} className={idx === 3 ? 'w-full flex justify-center' : ''}>
                   <motion.span
@@ -151,7 +151,7 @@ export const Hero = () => {
             }}
             whileTap={{ scale: 0.92 }}
             onClick={scrollToBooking}
-            className="relative px-12 py-5 bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple text-neon-dark font-black text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group"
+            className="relative px-8 md:px-12 py-4 md:py-5 bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple text-neon-dark font-black text-base md:text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               🚀 {t('hero.cta')}
