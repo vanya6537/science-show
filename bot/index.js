@@ -148,11 +148,12 @@ bot.on('channel_post', (msg) => {
   logMessage(msg);
 });
 
-// Команда /start - с ReplyKeyboard (надежнее работает с sendData)
+// Команда /start - смешанное меню (ReplyKeyboard + Inline)
 bot.onText(/\/start/, (msg) => {
   const chatId = msg.chat.id;
   
-  const keyboard = {
+  // Сначала отправляем ReplyKeyboard с web_app кнопками
+  const replyKeyboard = {
     reply_markup: {
       keyboard: [
         [
@@ -164,7 +165,15 @@ bot.onText(/\/start/, (msg) => {
             text: '📋 Забронировать',
             web_app: { url: `${WEBAPP_URL}#booking` }
           }
-        ],
+        ]
+      ],
+      resize_keyboard: true
+    }
+  };
+
+  const inlineKeyboard = {
+    reply_markup: {
+      inline_keyboard: [
         [
           {
             text: '🎪 Шоу',
@@ -175,16 +184,22 @@ bot.onText(/\/start/, (msg) => {
             callback_data: 'contact_info'
           }
         ]
-      ],
-      resize_keyboard: true
+      ]
     }
   };
 
+  // Отправляем основное сообщение с inline кнопками
   bot.sendMessage(chatId, 
     '🌟 Добро пожаловать в Science Show Da Nang!\n\n' +
     '✨ Невероятная Научная Магия от Виктора Вальмонта\n\n' +
-    'Нажми на кнопку ниже:', 
-    keyboard
+    'Информация о шоу и контакты:', 
+    inlineKeyboard
+  );
+  
+  // Отправляем отдельное сообщение с web_app кнопками для бронирования
+  bot.sendMessage(chatId,
+    '📋 Забронировать шоу:',
+    replyKeyboard
   );
 });
 
@@ -422,7 +437,8 @@ bot.on('callback_query', (query) => {
       console.log('✅ Обработка: contact_info');
       bot.answerCallbackQuery(query.id);
       console.log('📤 Отправляю контактную информацию...');
-      bot.sendMessage(chatId,
+      bot.sendMessage(
+        chatId,
         '📞 *КОНТАКТНАЯ ИНФОРМАЦИЯ*\n\n' +
         '━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
         '👤 *Science Show Da Nang*\n' +
