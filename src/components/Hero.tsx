@@ -123,11 +123,11 @@ export const Hero = () => {
                       ease: 'linear',
                     }}
                     whileHover={{
-                      scale: 1.12,
+                      scale: 1.08,
                       backgroundImage: 'linear-gradient(90deg, rgb(179, 0, 255), rgb(57, 255, 20), rgb(0, 217, 255))',
                       textShadow: '0 0 40px rgba(179, 0, 255, 1), 0 0 80px rgba(0, 217, 255, 1), 0 0 120px rgba(57, 255, 20, 0.8)',
                     }}
-                    className="cursor-pointer inline-block origin-center mx-3"
+                    className="cursor-pointer inline-block origin-center mx-2 md:mx-3"
                     style={{
                       textShadow: `0 0 20px rgba(57, 255, 20, 0.8), 0 0 40px rgba(0, 217, 255, 0.5)`,
                       backgroundClip: 'text',

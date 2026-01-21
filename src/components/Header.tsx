@@ -19,7 +19,7 @@ export const Header = ({ onLanguageChange }: NavProps) => {
         <div className="flex justify-between items-center h-16">
           <motion.div
             whileHover={{ scale: 1.05, textShadow: '0 0 20px rgba(179, 0, 255, 0.8)' }}
-            className="text-3xl font-black bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow cursor-pointer"
+            className="text-xl md:text-3xl font-black bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow cursor-pointer"
           >
             ⚡ Science Show
           </motion.div>

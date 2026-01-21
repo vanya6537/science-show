@@ -13,6 +13,21 @@ interface Show {
 export const Shows = () => {
   const { t } = useTranslation();
 
+  const handleShowBooking = (showTitle: string) => {
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+      // Предзаполняем сообщение в форме
+      setTimeout(() => {
+        const messageInput = document.querySelector('textarea[name="message"]') as HTMLTextAreaElement;
+        if (messageInput) {
+          messageInput.value = `Заинтересован в шоу: ${showTitle}`;
+          messageInput.focus();
+        }
+      }, 500);
+    }
+  };
+
   const shows: Show[] = [
     {
       id: 'dryIce',
@@ -105,16 +120,26 @@ export const Shows = () => {
               }}
               className={`bg-gradient-to-br ${show.color} p-[3px] rounded-2xl overflow-hidden cursor-pointer group relative`}
             >
-              <div className="bg-gradient-to-br from-neon-dark to-neon-darker px-10 py-12 rounded-2xl h-full relative z-10">
+              <div className="bg-gradient-to-br from-neon-dark to-neon-darker px-10 py-12 rounded-2xl h-full relative z-10 flex flex-col">
                 <div className="text-7xl mb-6 group-hover:scale-150 group-hover:rotate-12 transition-all duration-300 inline-block">
                   {show.icon}
                 </div>
                 <h3 className="text-3xl font-black text-transparent bg-gradient-to-r from-neon-blue to-neon-green bg-clip-text mb-4 group-hover:animate-pulse transition-all">
                   {show.title}
                 </h3>
-                <p className="text-neon-blue opacity-90 group-hover:opacity-100 font-semibold transition-opacity text-lg leading-relaxed">
+                <p className="text-neon-blue opacity-90 group-hover:opacity-100 font-semibold transition-opacity text-lg leading-relaxed flex-grow">
                   {show.description}
                 </p>
+                
+                {/* Book button */}
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(57, 255, 20, 0.8)' }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleShowBooking(show.title)}
+                  className="mt-6 w-full bg-gradient-to-r from-neon-green to-neon-blue text-neon-dark font-black py-3 rounded-xl hover:shadow-neon-green transition-all duration-300"
+                >
+                  📋 {t('shows.book') || 'Book'}
+                </motion.button>
                 
                 {/* Animated border effect */}
                 <motion.div

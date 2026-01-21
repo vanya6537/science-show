@@ -13,6 +13,7 @@
   },
   "shows": {
     "title": "Our Spectacular Shows",
+    "book": "Book Show",
     "dryIce": "Dry Ice Explosion",
     "dryIceDesc": "Witness the mesmerizing fog effects with LED synchronized lighting",
     "liquidNitrogen": "Liquid Nitrogen Magic",

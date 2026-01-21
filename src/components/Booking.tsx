@@ -20,6 +20,18 @@ export const Booking = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Бизнес логика: отправка данных
+    const bookingData = {
+      ...formData,
+      timestamp: new Date().toISOString(),
+    };
+    
+    console.log('Booking submitted:', bookingData);
+    
+    // Здесь можно добавить API запрос
+    // await fetch('/api/bookings', { method: 'POST', body: JSON.stringify(bookingData) })
+    
     setSubmitted(true);
     setFormData({ name: '', email: '', date: '', guests: '1', message: '' });
     setTimeout(() => setSubmitted(false), 4000);
