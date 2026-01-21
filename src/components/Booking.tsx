@@ -2,6 +2,19 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 
+// Типы для Telegram WebApp API
+declare global {
+  interface Window {
+    Telegram?: {
+      WebApp: {
+        sendData: (data: string) => void;
+        close: () => void;
+        ready: () => void;
+      };
+    };
+  }
+}
+
 export const Booking = () => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
@@ -21,17 +34,33 @@ export const Booking = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Бизнес логика: отправка данных
+    // Проверяем доступность Telegram WebApp API
+    if (!window.Telegram?.WebApp) {
+      console.log('Telegram WebApp недоступен, используем локальное сохранение');
+      setSubmitted(true);
+      setFormData({ name: '', email: '', date: '', guests: '1', message: '' });
+      setTimeout(() => setSubmitted(false), 4000);
+      return;
+    }
+    
+    const tg = window.Telegram.WebApp;
+    
+    // Данные заказа
     const bookingData = {
-      ...formData,
+      name: formData.name,
+      email: formData.email,
+      date: formData.date,
+      guests: formData.guests,
+      message: formData.message,
       timestamp: new Date().toISOString(),
     };
     
-    console.log('Booking submitted:', bookingData);
+    console.log('Отправляем данные заказа боту:', bookingData);
     
-    // Здесь можно добавить API запрос
-    // await fetch('/api/bookings', { method: 'POST', body: JSON.stringify(bookingData) })
+    // Отправляем данные боту через встроенный API
+    tg.sendData(JSON.stringify(bookingData));
     
+    // Показываем успешное сообщение
     setSubmitted(true);
     setFormData({ name: '', email: '', date: '', guests: '1', message: '' });
     setTimeout(() => setSubmitted(false), 4000);

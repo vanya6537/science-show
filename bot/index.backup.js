@@ -1,4 +1,5 @@
 const TelegramBot = require('node-telegram-bot-api');
+const express = require('express');
 require('dotenv').config();
 
 // Загружаем переменные окружения из .env файла
@@ -234,62 +235,6 @@ bot.onText(/\/status/, (msg) => {
   bot.sendMessage(chatId, status, { parse_mode: 'Markdown' });
 });
 
-// Обработка данных из веб-приложения (Telegram Mini App)
-bot.on('web_app_data', async (msg) => {
-  try {
-    const data = JSON.parse(msg.web_app_data.data);
-    const { name, email, date, guests, message } = data;
-    const userId = msg.from.id;
-    const username = msg.from.username || `${msg.from.first_name} ${msg.from.last_name}`.trim();
-    
-    console.log('\n✉️ ПОЛУЧЕНЫ ДАННЫЕ ЗАКАЗА ИЗ ВЕreformátus-ПРИЛОЖЕНИЯ');
-    console.log('─'.repeat(60));
-    console.log('Заказчик:', name, '(' + email + ')');
-    console.log('Дата:', date, '| Гостей:', guests);
-    console.log('Сообщение:', message);
-    
-    // Форматируем красивое сообщение для канала заказов
-    const orderMessage = `🎪 *НОВЫЙ ЗАКАЗ!*
-
-📝 *Данные заказчика:*
-👤 Имя: ${name}
-📧 Email: ${email}
-👥 Telegram: @${username} (ID: ${userId})
-
-📅 *Детали заказа:*
-📆 Дата мероприятия: ${date}
-👥 Количество гостей: ${guests}
-📋 Описание события: ${message || 'не указано'}
-
-⏰ Время подачи заказа: ${new Date().toLocaleString('ru-RU')}
-
-─────────────────────────────────
-⚠️ Требуется подтверждение от администратора`;
-    
-    // Отправляем в канал заказов
-    await bot.sendMessage(ORDERS_CHANNEL_ID, orderMessage, { parse_mode: 'Markdown' });
-    
-    // Отправляем подтверждение юзеру в личку
-    await bot.sendMessage(msg.chat.id, 
-      `✅ *Спасибо за заказ, ${name}!*\n\n` +
-      `Мы получили ваш заказ на дату *${date}*\n` +
-      `Количество гостей: *${guests}*\n\n` +
-      `Мы скоро свяжемся с вами по email: ${email}\n\n` +
-      `Номер заказа: \`ORDER_${msg.message_id}\``,
-      { parse_mode: 'Markdown' }
-    );
-    
-    console.log(`✅ Заказ от ${name} отправлен в канал ${ORDERS_CHANNEL_ID}`);
-    console.log('─'.repeat(60));
-  } catch (error) {
-    console.error('❌ Ошибка при обработке заказа из веб-приложения:', error);
-    bot.sendMessage(msg.chat.id, 
-      '❌ Ошибка при обработке заказа. Пожалуйста, попробуйте позже.',
-      { parse_mode: 'Markdown' }
-    );
-  }
-});
-
 // Обработка callback кнопок
 bot.on('callback_query', (query) => {
   const chatId = query.message.chat.id;
@@ -352,5 +297,71 @@ bot.on('error', (error) => {
   console.log('❌ Ошибка бота:', error);
 });
 
-console.log('✅ Бот запущен. Используй /help для справки.');
+// ===== EXPRESS СЕРВЕР ДЛЯ API =====
+const app = express();
+app.use(express.json());
 
+const PORT = process.env.BOT_API_PORT || 3001;
+
+// API Endpoint для получения заказов с сайта
+app.post('/api/booking', async (req, res) => {
+  try {
+    const { name, email, date, guests, message, userAgent } = req.body;
+    
+    if (!name || !email || !date) {
+      return res.status(400).json({ error: 'Не заполнены обязательные поля' });
+    }
+    
+    // Форматируем сообщение для канала
+    const orderMessage = `
+🎪 *НОВЫЙ ЗАКАЗ ШОუ!*
+
+📝 *Данные заказчика:*
+👤 Имя: ${name}
+📧 Email: ${email}
+
+📅 *Детали заказа:*
+📆 Дата: ${date}
+👥 Количество гостей: ${guests}
+📋 Описание: ${message || 'не указано'}
+
+🌐 *Информация о заказчике:*
+🔗 User Agent: ${userAgent || 'неизвестно'}
+⏰ Время заказа: ${new Date().toLocaleString('ru-RU')}
+
+─────────────────────────────────
+⚠️ Требуется подтверждение
+    `.trim();
+    
+    // Отправляем в канал заказов
+    await bot.sendMessage(ORDERS_CHANNEL_ID, orderMessage, { parse_mode: 'Markdown' });
+    
+    console.log(`✅ Заказ от ${name} отправлен в канал`);
+    
+    res.json({ 
+      success: true, 
+      message: 'Заказ успешно отправлен! Мы скоро свяжемся с вами.',
+      orderId: `ORDER_${Date.now()}`
+    });
+  } catch (error) {
+    console.error('❌ Ошибка при обработке заказа:', error);
+    res.status(500).json({ 
+      error: 'Ошибка при отправке заказа',
+      details: error.message 
+    });
+  }
+});
+
+// Health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Bot API server is running' });
+});
+
+// Запускаем Express сервер
+app.listen(PORT, () => {
+  console.log(`\n🌐 API сервер запущен на http://localhost:${PORT}`);
+  console.log(`📮 Endpoint для заказов: POST http://localhost:${PORT}/api/booking`);
+  console.log(`📢 Заказы будут отправляться в канал: ${ORDERS_CHANNEL_ID}`);
+});
+
+console.log('✅ Бот запущен. Используй /help для справки.');
