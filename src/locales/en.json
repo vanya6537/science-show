@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Home",
+    "shows": "Shows",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Science Show Experience",
+    "subtitle": "Mind-Blowing Visual Effects with Chemistry",
+    "cta": "Book Your Show"
+  },
+  "shows": {
+    "title": "Our Spectacular Shows",
+    "dryIce": "Dry Ice Explosion",
+    "dryIceDesc": "Witness the mesmerizing fog effects with LED synchronized lighting",
+    "liquidNitrogen": "Liquid Nitrogen Magic",
+    "liquidNitrogenDesc": "Extreme cold demonstrations with instant freezing effects",
+    "tesla": "Tesla Coil Lightning",
+    "teslaDesc": "High-voltage electricity creating spectacular lightning displays",
+    "chemicalFire": "Chemical Fire Show",
+    "chemicalFireDesc": "Colored flames and pyrotechnic visual extravaganza"
+  },
+  "booking": {
+    "title": "Ready for Magic?",
+    "subtitle": "Book your unforgettable science show experience",
+    "name": "Your Name",
+    "email": "Email Address",
+    "date": "Preferred Date",
+    "guests": "Number of Guests",
+    "message": "Additional Details",
+    "submit": "Book Now",
+    "success": "Booking received! We'll contact you soon."
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "contact": "Contact us"
+  }
+}

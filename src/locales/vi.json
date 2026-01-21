@@ -1,0 +1,39 @@
+{
+  "nav": {
+    "home": "Trang Chủ",
+    "shows": "Các Chương Trình",
+    "about": "Về Chúng Tôi",
+    "contact": "Liên Hệ"
+  },
+  "hero": {
+    "title": "Trải Nghiệm Khoa Học Tuyệt Vời",
+    "subtitle": "Hiệu Ứng Hình Ảnh Tuyệt Đẹp với Hóa Học",
+    "cta": "Đặt Chương Trình"
+  },
+  "shows": {
+    "title": "Các Chương Trình Khoa Học Tuyệt Đẹp",
+    "dryIce": "Vụ Nổ Khô",
+    "dryIceDesc": "Hiệu ứng sương mù quyến rũ với đèn LED được đồng bộ hóa",
+    "liquidNitrogen": "Phép Thuật Nitơ Lỏng",
+    "liquidNitrogenDesc": "Trình diễn lạnh cực đoan với hiệu ứng đông lạnh tức thì",
+    "tesla": "Sét Cuộn Điện Tesla",
+    "teslaDesc": "Điện áp cao tạo ra màn trình diễn sét tuyệt đẹp",
+    "chemicalFire": "Chương Trình Lửa Hóa Học",
+    "chemicalFireDesc": "Ngọn lửa đầy màu sắc và hiệu ứng pháo hoa tuyệt vời"
+  },
+  "booking": {
+    "title": "Sẵn Sàng cho Phép Thuật?",
+    "subtitle": "Đặt chương trình khoa học không thể quên",
+    "name": "Tên của Bạn",
+    "email": "Địa Chỉ Email",
+    "date": "Ngày Ưa Thích",
+    "guests": "Số Lượng Khách",
+    "message": "Thông Tin Bổ Sung",
+    "submit": "Đặt Ngay",
+    "success": "Đặt chỗ đã nhận! Chúng tôi sẽ liên hệ sớm."
+  },
+  "footer": {
+    "rights": "Tất cả quyền được bảo lưu",
+    "contact": "Liên hệ với chúng tôi"
+  }
+}
