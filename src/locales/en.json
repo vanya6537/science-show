@@ -8,6 +8,7 @@
   "hero": {
     "title": "Science Show Experience",
     "subtitle": "Incredible Scientific Magic by Viktor Valmont",
+      "neonSubtitle": "Incredible Scientific Magic by Viktor Valmont",
     "cta": "Book Your Show"
   },
   "shows": {

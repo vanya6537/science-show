@@ -8,7 +8,9 @@ module.exports = {
       colors: {
         neon: {
           blue: '#00D9FF',
+          cyan: '#00FFFF',
           purple: '#B300FF',
+          pink: '#FF00FF',
           green: '#39FF14',
           dark: '#0A0E27',
           darker: '#050812',

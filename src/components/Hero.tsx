@@ -1,8 +1,19 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import Lightning from './Lightning';
+import ElasticHueSlider from './ElasticHueSlider';
 
 export const Hero = () => {
   const { t } = useTranslation();
+  const [lightningHue, setLightningHue] = useState(155);
+
+  const scrollToBooking = () => {
+    const bookingSection = document.getElementById('booking');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -25,25 +36,42 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen bg-neon-dark overflow-hidden flex items-center">
-      {/* Animated background elements */}
+    <section id="home" className="relative min-h-screen bg-neon-darker overflow-hidden flex items-center">
+      {/* Animated background lightning */}
       <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        className="absolute top-20 left-10 w-72 h-72 bg-neon-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-      />
-      <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
-        className="absolute bottom-20 right-10 w-72 h-72 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-20"
-      />
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
-        className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-10"
-      />
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+        className="absolute inset-0 z-0"
+      >
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-neon-darker via-neon-dark to-neon-darker opacity-90"></div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+        {/* Glowing circle */}
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 8, repeat: Infinity }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-b from-neon-purple/30 to-neon-blue/10 blur-3xl"
+        ></motion.div>
+
+        {/* Central lightning beam */}
+        <div className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full">
+          <Lightning
+            hue={lightningHue}
+            xOffset={0}
+            speed={1.6}
+            intensity={0.7}
+            size={2}
+          />
+        </div>
+
+        {/* Additional glow effects */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue rounded-full mix-blend-multiply filter blur-3xl opacity-15" />
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-15" />
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -52,47 +80,107 @@ export const Hero = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-6xl md:text-7xl lg:text-8xl font-black mb-6 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow"
+            className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow"
           >
             {t('hero.title')}
           </motion.h1>
 
-          <motion.p
+          {/* Interactive Hue Slider */}
+          <motion.div
             variants={itemVariants}
-            className="text-xl md:text-2xl text-neon-green mb-8 font-light max-w-3xl mx-auto"
+            className="flex justify-center mb-12"
           >
-            {t('hero.subtitle')}
-          </motion.p>
+            <ElasticHueSlider
+              value={lightningHue}
+              onChange={setLightningHue}
+              label="⚡ Настройка молнии"
+              min={0}
+              max={360}
+              step={1}
+            />
+          </motion.div>
+
+          {/* Neon style subtitle with word-by-word hover gradient effect */}
+          <motion.div
+            variants={itemVariants}
+            className="flex justify-center mb-12"
+          >
+            <div className="text-2xl md:text-4xl font-black tracking-widest drop-shadow-2xl flex flex-wrap justify-center">
+              {t('hero.neonSubtitle').split(' ').map((word, idx) => (
+                <div key={idx} className={idx === 3 ? 'w-full flex justify-center' : ''}>
+                  <motion.span
+                    animate={{
+                      backgroundImage: [
+                        'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
+                        'linear-gradient(90deg, rgb(179, 0, 255), rgb(57, 255, 20), rgb(0, 217, 255))',
+                        'linear-gradient(90deg, rgb(57, 255, 20), rgb(0, 217, 255), rgb(179, 0, 255))',
+                        'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
+                      ],
+                    }}
+                    transition={{
+                      duration: 6 + idx * 0.5,
+                      repeat: Infinity,
+                      ease: 'linear',
+                    }}
+                    whileHover={{
+                      scale: 1.12,
+                      backgroundImage: 'linear-gradient(90deg, rgb(179, 0, 255), rgb(57, 255, 20), rgb(0, 217, 255))',
+                      textShadow: '0 0 40px rgba(179, 0, 255, 1), 0 0 80px rgba(0, 217, 255, 1), 0 0 120px rgba(57, 255, 20, 0.8)',
+                    }}
+                    className="cursor-pointer inline-block origin-center mx-3"
+                    style={{
+                      textShadow: `0 0 20px rgba(57, 255, 20, 0.8), 0 0 40px rgba(0, 217, 255, 0.5)`,
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundImage: 'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
+                    }}
+                  >
+                    {word}
+                  </motion.span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
 
           <motion.button
             variants={itemVariants}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(179, 0, 255, 0.8)' }}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: '0 0 30px rgba(179, 0, 255, 0.8)',
+            }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-4 bg-gradient-to-r from-neon-blue to-neon-purple text-neon-dark font-bold text-lg rounded-lg shadow-neon-purple hover:shadow-neon transition-all duration-300"
+            onClick={scrollToBooking}
+            className="px-10 py-4 bg-gradient-to-r from-neon-blue to-neon-purple text-neon-dark font-black text-lg rounded-lg shadow-neon-purple hover:shadow-neon transition-all duration-300 cursor-pointer"
           >
-            {t('hero.cta')}
+            🚀 {t('hero.cta')}
           </motion.button>
         </motion.div>
 
         {/* Animated particles */}
-        {[...Array(5)].map((_, i) => (
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             animate={{
-              y: [0, -20, 0],
-              opacity: [0, 1, 0],
+              y: [0, -30, 0],
+              opacity: [0, 0.8, 0],
+              x: [0, Math.sin(i) * 20, 0],
             }}
             transition={{
-              duration: 3 + i,
+              duration: 4 + i,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className={`absolute w-3 h-3 rounded-full ${
-              i % 3 === 0 ? 'bg-neon-blue' : i % 3 === 1 ? 'bg-neon-purple' : 'bg-neon-green'
+            className={`absolute w-2 h-2 rounded-full ${
+              i % 3 === 0
+                ? 'bg-neon-blue shadow-neon'
+                : i % 3 === 1
+                  ? 'bg-neon-purple shadow-neon-purple'
+                  : 'bg-neon-green shadow-neon-green'
             }`}
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`,
+              left: `${20 + i * 12}%`,
+              top: `${40 + i * 8}%`,
             }}
           />
         ))}
