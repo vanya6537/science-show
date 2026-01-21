@@ -7,12 +7,17 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": ["telegram", "bot", "science-show"],
+  "keywords": [
+    "telegram",
+    "bot",
+    "science-show"
+  ],
   "author": "Viktor Valmont",
   "license": "MIT",
   "dependencies": {
-    "node-telegram-bot-api": "^0.63.0",
-    "axios": "^1.6.0"
+    "axios": "^1.6.0",
+    "dotenv": "^17.2.3",
+    "node-telegram-bot-api": "^0.63.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"

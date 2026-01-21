@@ -114,20 +114,23 @@ export const Shows = () => {
               key={show.id}
               variants={cardVariants}
               whileHover={{ 
-                y: -15, 
+                y: -8,
                 boxShadow: '0 0 60px rgba(57, 255, 20, 0.6)',
-                scale: 1.02
               }}
-              className={`bg-gradient-to-br ${show.color} p-[3px] rounded-2xl overflow-hidden cursor-pointer group relative`}
+              whileTap={{ scale: 0.98 }}
+              className={`bg-gradient-to-br ${show.color} p-[3px] rounded-2xl overflow-hidden cursor-pointer group relative h-full`}
             >
-              <div className="bg-gradient-to-br from-neon-dark to-neon-darker px-10 py-12 rounded-2xl h-full relative z-10 flex flex-col">
-                <div className="text-7xl mb-6 group-hover:scale-150 group-hover:rotate-12 transition-all duration-300 inline-block">
+              <div className="bg-gradient-to-br from-neon-dark to-neon-darker px-8 py-10 rounded-2xl h-full relative z-10 flex flex-col">
+                <motion.div
+                  className="text-6xl md:text-7xl mb-6 group-hover:scale-125 transition-transform duration-300 inline-block origin-bottom-left"
+                  whileHover={{ rotate: 8 }}
+                >
                   {show.icon}
-                </div>
-                <h3 className="text-3xl font-black text-transparent bg-gradient-to-r from-neon-blue to-neon-green bg-clip-text mb-4 group-hover:animate-pulse transition-all">
+                </motion.div>
+                <h3 className="text-2xl md:text-3xl font-black text-transparent bg-gradient-to-r from-neon-blue to-neon-green bg-clip-text mb-4 group-hover:animate-pulse transition-all">
                   {show.title}
                 </h3>
-                <p className="text-neon-blue opacity-90 group-hover:opacity-100 font-semibold transition-opacity text-lg leading-relaxed flex-grow">
+                <p className="text-neon-blue opacity-90 group-hover:opacity-100 font-semibold transition-opacity text-base md:text-lg leading-relaxed flex-grow">
                   {show.description}
                 </p>
                 
@@ -153,7 +156,7 @@ export const Shows = () => {
                 />
               </div>
             </motion.div>
-          ))}
+          ))}}
         </motion.div>
       </div>
     </section>

@@ -146,14 +146,20 @@ export const Hero = () => {
           <motion.button
             variants={itemVariants}
             whileHover={{
-              scale: 1.05,
-              boxShadow: '0 0 30px rgba(179, 0, 255, 0.8)',
+              scale: 1.08,
+              boxShadow: '0 0 40px rgba(57, 255, 20, 0.8), 0 0 80px rgba(0, 217, 255, 0.6)',
             }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.92 }}
             onClick={scrollToBooking}
-            className="px-10 py-4 bg-gradient-to-r from-neon-blue to-neon-purple text-neon-dark font-black text-lg rounded-lg shadow-neon-purple hover:shadow-neon transition-all duration-300 cursor-pointer"
+            className="relative px-12 py-5 bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple text-neon-dark font-black text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group"
           >
-            🚀 {t('hero.cta')}
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              🚀 {t('hero.cta')}
+            </span>
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-neon-purple via-neon-green to-neon-blue opacity-0 group-hover:opacity-100"
+              transition={{ duration: 0.3 }}
+            />
           </motion.button>
         </motion.div>
 

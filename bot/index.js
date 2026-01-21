@@ -1,10 +1,16 @@
 const TelegramBot = require('node-telegram-bot-api');
+require('dotenv').config();
 
-// Замени на свой Telegram Bot Token из @BotFather
-const BOT_TOKEN = process.env.BOT_TOKEN || 'YOUR_BOT_TOKEN_HERE';
-
-// URL мини-приложения (укажи реальный URL после развёртывания)
+// Загружаем переменные окружения из .env файла
+const BOT_TOKEN = process.env.BOT_TOKEN;
 const WEBAPP_URL = process.env.WEBAPP_URL || 'https://science-show.example.com';
+
+// Проверяем наличие BOT_TOKEN
+if (!BOT_TOKEN) {
+  console.error('❌ Ошибка: BOT_TOKEN не найден в .env файле!');
+  console.error('Создай файл .env в папке bot/ с переменной BOT_TOKEN');
+  process.exit(1);
+}
 
 // Создаём экземпляр бота
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
