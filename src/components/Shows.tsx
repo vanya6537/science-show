@@ -156,7 +156,7 @@ export const Shows = () => {
                 />
               </div>
             </motion.div>
-          ))}}
+          ))}
         </motion.div>
       </div>
     </section>
