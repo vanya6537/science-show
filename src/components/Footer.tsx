@@ -11,30 +11,37 @@ export const Footer = () => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-neon-darker border-t border-neon-purple py-12"
+      className="bg-gradient-to-t from-neon-darker to-neon-dark border-t-2 border-neon-blue py-16 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      {/* Background glow */}
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+        className="absolute bottom-0 right-0 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-5"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <motion.div
-            whileHover={{ x: 5 }}
-            className="text-neon-blue"
+            whileHover={{ x: 10, color: '#39FF14' }}
+            className="text-neon-blue transition-colors duration-300"
           >
-            <h3 className="text-lg font-bold text-neon-green mb-3">
-              ⚡ Science Show Da Nang
+            <h3 className="text-2xl font-black bg-gradient-to-r from-neon-blue to-neon-purple bg-clip-text text-transparent mb-3">
+              ⚡ Science Show
             </h3>
-            <p className="opacity-70">
-              Mind-blowing chemical demonstrations with spectacular visual effects.
+            <p className="opacity-80 font-semibold leading-relaxed">
+              Mind-blowing chemical demonstrations with spectacular UV visual effects.
             </p>
           </motion.div>
 
           <motion.div
-            whileHover={{ x: 5 }}
-            className="text-neon-blue"
+            whileHover={{ x: 10, color: '#39FF14' }}
+            className="text-neon-blue transition-colors duration-300"
           >
-            <h3 className="text-lg font-bold text-neon-green mb-3">
+            <h3 className="text-2xl font-black text-neon-green mb-4">
               {t('footer.contact')}
             </h3>
-            <ul className="space-y-2 opacity-70">
+            <ul className="space-y-2 opacity-80 font-semibold">
               <li>📧 info@scienceshow.vn</li>
               <li>📱 +84 xxx xxx xxx</li>
               <li>📍 Da Nang, Vietnam</li>
@@ -42,17 +49,21 @@ export const Footer = () => {
           </motion.div>
 
           <motion.div
-            whileHover={{ x: 5 }}
-            className="text-neon-blue"
+            whileHover={{ x: 10, color: '#39FF14' }}
+            className="text-neon-blue transition-colors duration-300"
           >
-            <h3 className="text-lg font-bold text-neon-green mb-3">Follow Us</h3>
+            <h3 className="text-2xl font-black text-neon-green mb-4">Follow Us</h3>
             <div className="flex gap-4">
               {['f', 'i', 't'].map((icon) => (
                 <motion.a
                   key={icon}
                   href="#"
-                  whileHover={{ scale: 1.2, color: '#00D9FF' }}
-                  className="text-neon-purple text-xl hover:text-neon-green transition-colors"
+                  whileHover={{ 
+                    scale: 1.3,
+                    textShadow: '0 0 15px rgba(57, 255, 20, 0.8)',
+                    color: '#39FF14'
+                  }}
+                  className="text-neon-purple text-2xl hover:text-neon-green transition-all duration-300 font-bold"
                 >
                   {icon === 'f' && '👍'}
                   {icon === 'i' && '📷'}
@@ -67,10 +78,10 @@ export const Footer = () => {
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           transition={{ duration: 0.8 }}
-          className="h-px bg-gradient-to-r from-transparent via-neon-blue to-transparent mb-8 origin-left"
+          className="h-1 bg-gradient-to-r from-transparent via-neon-purple to-transparent mb-8 origin-left rounded-full shadow-neon-purple"
         />
 
-        <div className="text-center text-neon-blue opacity-60 text-sm">
+        <div className="text-center text-neon-blue opacity-70 text-sm font-semibold">
           <p>
             © {currentYear} Science Show Da Nang. {t('footer.rights')}.
           </p>
