@@ -14,17 +14,18 @@ export const Shows = () => {
   const { t } = useTranslation();
 
   const handleShowBooking = (showTitle: string) => {
+    // Get existing message from sessionStorage
+    const existingMessage = sessionStorage.getItem('bookingShowMessage') || '';
+    // Append new show to the list
+    const newMessage = existingMessage 
+      ? existingMessage + `\n✓ ${showTitle}`
+      : `Заинтересован в шоу:\n✓ ${showTitle}`;
+    
+    sessionStorage.setItem('bookingShowMessage', newMessage);
+    // Scroll to booking section
     const bookingSection = document.getElementById('booking');
     if (bookingSection) {
       bookingSection.scrollIntoView({ behavior: 'smooth' });
-      // Предзаполняем сообщение в форме
-      setTimeout(() => {
-        const messageInput = document.querySelector('textarea[name="message"]') as HTMLTextAreaElement;
-        if (messageInput) {
-          messageInput.value = `Заинтересован в шоу: ${showTitle}`;
-          messageInput.focus();
-        }
-      }, 500);
     }
   };
 

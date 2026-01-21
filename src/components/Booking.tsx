@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Calendar } from './Calendar';
+import { parseDate } from '@internationalized/date';
 
 // Типы для Telegram WebApp API
 declare global {
@@ -25,11 +27,27 @@ export const Booking = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [selectedDate, setSelectedDate] = useState<any>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
+
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date);
+    const dateString = date.toString(); // формат: YYYY-MM-DD
+    setFormData(prev => ({ ...prev, date: dateString }));
+  };
+
+  // Получение текста сообщения из sessionStorage (устанавливается при клике на услугу)
+  useEffect(() => {
+    const savedMessage = sessionStorage.getItem('bookingShowMessage');
+    if (savedMessage) {
+      setFormData(prev => ({ ...prev, message: savedMessage }));
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,10 +67,7 @@ export const Booking = () => {
     const bookingData = {
       name: formData.name,
       email: formData.email,
-      date: formData.date,
-      guests: formData.guests,
-      message: formData.message,
-      timestamp: new Date().toISOString(),
+        date: selectedDate?.toString() || formData.date,
     };
     
     console.log('Отправляем данные заказа боту:', bookingData);
@@ -118,8 +133,7 @@ export const Booking = () => {
         <motion.form
           variants={containerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
+          animate={isVisible ? "visible" : "hidden"}
           onSubmit={handleSubmit}
           className="bg-neon-dark rounded-lg border-2 border-neon-purple/30 shadow-md overflow-hidden"
         >
@@ -159,14 +173,18 @@ export const Booking = () => {
                 <label className="block text-neon-green font-bold mb-3 text-lg">
                   {t('booking.date')} 📅
                 </label>
-                <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                  required
-                  className="w-full bg-neon-dark border-2 border-neon-blue rounded-xl px-5 py-4 text-neon-blue focus:outline-none focus:border-neon-green focus:shadow-neon-green focus:shadow-lg transition-all font-semibold text-lg"
-                />
+                <div >
+                  <Calendar
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    minValue={parseDate(new Date().toISOString().split('T')[0])}
+                  />
+                </div>
+                {formData.date && (
+                  <p className="text-neon-green text-sm mt-2">
+                    📅 Выбранная дата: {formData.date}
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-neon-green font-bold mb-3 text-lg">

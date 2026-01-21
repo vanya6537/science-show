@@ -1,10 +1,18 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const [copiedText, setCopiedText] = useState<string | null>(null);
 
   const currentYear = new Date().getFullYear();
+
+  const handleCopy = (text: string, type: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedText(type);
+    setTimeout(() => setCopiedText(null), 2000);
+  };
 
   return (
     <motion.footer
@@ -42,9 +50,21 @@ export const Footer = () => {
               {t('footer.contact')}
             </h3>
             <ul className="space-y-2 opacity-80 font-semibold">
-              <li>📧 viktorvalmontshow@gmail.com</li>
-              <li>📱 +84 949197496</li>
-              <li>📍 Da Nang, Vietnam</li>
+              <li 
+                onClick={() => handleCopy('viktorvalmontshow@gmail.com', 'email')}
+                className="cursor-pointer hover:text-neon-green transition-all duration-200 flex items-center gap-2 hover:gap-3"
+              >
+                📧 {copiedText === 'email' ? '✅ Copied!' : 'viktorvalmontshow@gmail.com'}
+              </li>
+              <li 
+                onClick={() => handleCopy('+84 949197496', 'phone')}
+                className="cursor-pointer hover:text-neon-green transition-all duration-200 flex items-center gap-2 hover:gap-3"
+              >
+                📱 {copiedText === 'phone' ? '✅ Copied!' : '+84 949197496'}
+              </li>
+              <li className="flex items-center gap-2">
+                📍 Da Nang, Vietnam
+              </li>
             </ul>
           </motion.div>
 
