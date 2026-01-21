@@ -38,7 +38,7 @@ export const Footer = () => {
               ⚡ Science Show
             </h3>
             <p className="opacity-80 font-semibold leading-relaxed">
-              Mind-blowing chemical demonstrations with spectacular UV visual effects.
+              {t('footer.description')}
             </p>
           </motion.div>
 
