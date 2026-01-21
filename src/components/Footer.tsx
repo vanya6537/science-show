@@ -42,8 +42,8 @@ export const Footer = () => {
               {t('footer.contact')}
             </h3>
             <ul className="space-y-2 opacity-80 font-semibold">
-              <li>📧 info@scienceshow.vn</li>
-              <li>📱 +84 xxx xxx xxx</li>
+              <li>📧 viktorvalmontshow@gmail.com</li>
+              <li>📱 +84 949197496</li>
               <li>📍 Da Nang, Vietnam</li>
             </ul>
           </motion.div>
@@ -53,7 +53,7 @@ export const Footer = () => {
             className="text-neon-blue transition-colors duration-300"
           >
             <h3 className="text-2xl font-black text-neon-green mb-4">Follow Us</h3>
-            <div className="flex gap-4">
+            <div className="flex gap-4 flex-wrap">
               {['f', 'i', 't'].map((icon) => (
                 <motion.a
                   key={icon}
@@ -70,6 +70,20 @@ export const Footer = () => {
                   {icon === 't' && '𝕏'}
                 </motion.a>
               ))}
+              <motion.a
+                href="https://t.me/science_show_dnang_bot"
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ 
+                  scale: 1.3,
+                  textShadow: '0 0 15px rgba(0, 217, 255, 0.8)',
+                  color: '#00D9FF'
+                }}
+                className="text-neon-blue text-2xl hover:text-neon-cyan transition-all duration-300 font-bold"
+                title="Открыть Telegram бот"
+              >
+                🤖
+              </motion.a>
             </div>
           </motion.div>
         </div>
