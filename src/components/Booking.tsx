@@ -76,9 +76,16 @@ export const Booking = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.date) {
+      alert('Пожалуйста заполните все поля');
+      return;
+    }
+    
     // Проверяем доступность Telegram WebApp API
     if (!window.Telegram?.WebApp) {
       console.log('Telegram WebApp недоступен, используем локальное сохранение');
+      console.log('Данные заказа:', formData);
       setSubmitted(true);
       setFormData({ name: '', email: '', date: '', guests: '1', message: '' });
       setTimeout(() => setSubmitted(false), 4000);
@@ -87,21 +94,33 @@ export const Booking = () => {
     
     const tg = window.Telegram.WebApp;
     
-    // Данные заказа
+    // Данные заказа - включаем все поля
     const bookingData = {
       name: formData.name,
       email: formData.email,
-        date: selectedDate?.toString() || formData.date,
+      date: selectedDate?.toString() || formData.date,
+      guests: formData.guests,
+      message: formData.message,
+      timestamp: new Date().toISOString(),
     };
     
-    console.log('Отправляем данные заказа боту:', bookingData);
+    console.log('📤 Отправляем данные заказа боту:', JSON.stringify(bookingData, null, 2));
     
     // Отправляем данные боту через встроенный API
-    tg.sendData(JSON.stringify(bookingData));
+    try {
+        // count bytes length
+        const byteLength = new TextEncoder().encode(JSON.stringify(bookingData)).length;
+        console.log(`Размер данных: ${byteLength} байт`);
+      tg.sendData(JSON.stringify(bookingData));
+      console.log('✅ Данные успешно отправлены!');
+    } catch (error) {
+      console.error('❌ Ошибка при отправке данных:', error);
+    }
     
     // Показываем успешное сообщение
     setSubmitted(true);
     setFormData({ name: '', email: '', date: '', guests: '1', message: '' });
+    setSelectedDate(null);
     setTimeout(() => setSubmitted(false), 4000);
   };
 

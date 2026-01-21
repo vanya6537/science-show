@@ -70,11 +70,11 @@ bot.getMe().then((me) => {
 // Обработка данных от Telegram Mini App (веб-приложение)
 // Вариант 1: через событие web_app_data_sent
 bot.on('web_app_data_sent', async (msg) => {
-  console.log('📨 Событие web_app_data_sent получено');
+  console.log('\n✨✨✨ WEB_APP_DATA_SENT СОБЫТИЕ! ✨✨✨');
   console.log('Полное сообщение:', JSON.stringify(msg, null, 2));
   
   try {
-    if (msg.web_app_data) {
+    if (msg.web_app_data && msg.web_app_data.data) {
       const data = JSON.parse(msg.web_app_data.data);
       const { name, email, date, guests, message: bookingMessage } = data;
       const userId = msg.from.id;
@@ -133,24 +133,23 @@ bot.on('web_app_data_sent', async (msg) => {
 
 // Диагностика: логируем ВСЕ входящие события
 bot.on('message', async (msg) => {
-  // Показываем все события для диагностики
-  if (msg.web_app_data || msg.successful_payment) {
-    console.log('\n🔍 СПЕЦИАЛЬНОЕ СОБЫТИЕ ОБНАРУЖЕНО:');
-    console.log('Тип события:', msg.web_app_data ? 'web_app_data' : msg.successful_payment ? 'successful_payment' : 'unknown');
-    console.log('─'.repeat(60));
-  }
+  console.log('\n🔍 MESSAGE EVENT ПОЛУЧЕНО');
+  console.log('─'.repeat(60));
+  console.log('Chat Type:', msg.chat.type);
+  console.log('Has web_app_data:', !!msg.web_app_data);
+  console.log('Message keys:', Object.keys(msg).filter(k => k !== 'text' && k !== 'caption'));
   
-  // Вариант 2: через событие message с web_app_data
   if (msg.web_app_data) {
-    console.log('📨 Получены web_app_data в message событии');
-    console.log('Данные:', msg.web_app_data);
+    console.log('\n✨✨✨ WEB_APP_DATA В MESSAGE! ✨✨✨');
+    console.log('web_app_data value:', msg.web_app_data);
     try {
       const data = JSON.parse(msg.web_app_data.data);
+      console.log('Parsed data:', data);
       const { name, email, date, guests, message: bookingMessage } = data;
       const userId = msg.from.id;
       const username = msg.from.username || `${msg.from.first_name} ${msg.from.last_name}`.trim();
       
-      console.log('\n✉️ ПОЛУЧЕНЫ ДАННЫЕ ЗАКАЗА ИЗ ВЕБ-ПРИЛОЖЕНИЯ');
+      console.log('\n✉️ ПОЛУЧЕНЫ ДАННЫЕ ЗАКАЗА ИЗ ВЕБ-ПРИЛОЖЕНИЯ (MESSAGE HANDLER)');
       console.log('─'.repeat(60));
       console.log('Заказчик:', name, '(' + email + ')');
       console.log('Дата:', date, '| Гостей:', guests);
