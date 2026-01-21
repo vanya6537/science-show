@@ -36,7 +36,7 @@ export const Hero = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-[85vh] md:min-h-screen bg-neon-darker overflow-hidden flex items-center py-4 sm:py-6 md:py-0">
+    <section id="home" className="relative min-h-[92vh] md:min-h-screen bg-neon-darker overflow-hidden flex items-center py-4 sm:py-6 md:py-0">
       {/* Animated background lightning */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -66,9 +66,9 @@ export const Hero = () => {
         </div>
 
         {/* Additional glow effects */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue rounded-full mix-blend-multiply filter blur-3xl opacity-15" />
-        <div className="absolute bottom-20 right-10 w-72 h-72 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-15" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-3" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
@@ -80,7 +80,7 @@ export const Hero = () => {
         >
           <motion.h1
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-2 sm:mb-3 md:mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent animate-glow"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-2 sm:mb-3 md:mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent"
           >
             {t('hero.title')}
           </motion.h1>
@@ -146,20 +146,16 @@ export const Hero = () => {
           <motion.button
             variants={itemVariants}
             whileHover={{
-              scale: 1.08,
-              boxShadow: '0 0 40px rgba(57, 255, 20, 0.8), 0 0 80px rgba(0, 217, 255, 0.6)',
+              scale: 1.05,
+              boxShadow: '0 4px 12px rgba(57, 255, 20, 0.3)',
             }}
-            whileTap={{ scale: 0.92 }}
+            whileTap={{ scale: 0.95 }}
             onClick={scrollToBooking}
-            className="relative px-8 md:px-12 py-4 md:py-5 bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple text-neon-dark font-black text-base md:text-lg rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden group"
+            className="relative px-8 md:px-12 py-4 md:py-5 bg-gradient-to-r from-neon-green to-neon-blue text-neon-dark font-black text-base md:text-lg rounded-lg border-2 border-neon-green/50 transition-all duration-300 cursor-pointer"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               🚀 {t('hero.cta')}
             </span>
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-neon-purple via-neon-green to-neon-blue opacity-0 group-hover:opacity-100"
-              transition={{ duration: 0.3 }}
-            />
           </motion.button>
         </motion.div>
 

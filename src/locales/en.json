@@ -32,7 +32,14 @@
     "guests": "Number of Guests",
     "message": "Additional Details",
     "submit": "Book Now",
-    "success": "Booking received! We'll contact you soon."
+    "success": "Booking received! We'll contact you soon.",
+    "placeholders": {
+      "name": "Your name...",
+      "email": "your@email.com",
+      "message": "Tell us about your event..."
+    },
+    "guestSingular": "guest",
+    "guestPlural": "guests"
   },
   "footer": {
     "rights": "All rights reserved",

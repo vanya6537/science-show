@@ -114,46 +114,35 @@ export const Shows = () => {
               key={show.id}
               variants={cardVariants}
               whileHover={{ 
-                y: -8,
-                boxShadow: '0 0 60px rgba(57, 255, 20, 0.6)',
+                y: -6,
+                boxShadow: '0 8px 20px rgba(57, 255, 20, 0.2)',
               }}
               whileTap={{ scale: 0.98 }}
-              className={`bg-gradient-to-br ${show.color} p-[3px] rounded-2xl overflow-hidden cursor-pointer group relative h-full`}
+              className={`bg-neon-dark rounded-lg border-2 border-neon-blue/30 overflow-hidden cursor-pointer group relative h-full shadow-md`}
             >
-              <div className="bg-gradient-to-br from-neon-dark to-neon-darker px-8 py-10 rounded-2xl h-full relative z-10 flex flex-col">
+              <div className="px-6 md:px-8 py-8 md:py-10 h-full flex flex-col">
                 <motion.div
-                  className="text-6xl md:text-7xl mb-6 group-hover:scale-125 transition-transform duration-300 inline-block origin-bottom-left"
-                  whileHover={{ rotate: 8 }}
+                  className="text-5xl md:text-6xl mb-4 group-hover:scale-110 transition-transform duration-300 inline-block"
+                  whileHover={{ rotate: 5 }}
                 >
                   {show.icon}
                 </motion.div>
-                <h3 className="text-2xl md:text-3xl font-black text-transparent bg-gradient-to-r from-neon-blue to-neon-green bg-clip-text mb-4 group-hover:animate-pulse transition-all">
+                <h3 className="text-xl md:text-2xl font-bold text-neon-green mb-3 group-hover:text-neon-blue transition-colors">
                   {show.title}
                 </h3>
-                <p className="text-neon-blue opacity-90 group-hover:opacity-100 font-semibold transition-opacity text-base md:text-lg leading-relaxed flex-grow">
+                <p className="text-neon-blue opacity-80 group-hover:opacity-100 font-medium transition-opacity text-sm md:text-base leading-relaxed flex-grow">
                   {show.description}
                 </p>
                 
                 {/* Book button */}
                 <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(57, 255, 20, 0.8)' }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => handleShowBooking(show.title)}
-                  className="mt-6 w-full bg-gradient-to-r from-neon-green to-neon-blue text-neon-dark font-black py-3 rounded-xl hover:shadow-neon-green transition-all duration-300"
+                  className="mt-6 w-full bg-neon-green text-neon-dark font-bold py-3 rounded-lg border-2 border-neon-green/50 hover:border-neon-green transition-all duration-300"
                 >
                   📋 {t('shows.book') || 'Book'}
                 </motion.button>
-                
-                {/* Animated border effect */}
-                <motion.div
-                  animate={{ opacity: [0.3, 1, 0.3] }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className={`absolute inset-0 rounded-2xl pointer-events-none border-2 ${
-                    show.id === 'tesla' ? 'border-neon-blue' :
-                    show.id === 'liquidNitrogen' ? 'border-neon-purple' :
-                    show.id === 'chemicalFire' ? 'border-neon-green' : 'border-neon-blue'
-                  }`}
-                />
               </div>
             </motion.div>
           ))}

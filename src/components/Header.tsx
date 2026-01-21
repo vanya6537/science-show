@@ -13,7 +13,7 @@ export const Header = ({ onLanguageChange }: NavProps) => {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-r from-neon-darker via-neon-dark to-neon-darker border-b-2 border-neon-purple shadow-neon-purple sticky top-0 z-50"
+      className="bg-gradient-to-r from-neon-darker via-neon-dark to-neon-darker border-none shadow-neon-purple sticky top-0 z-50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">

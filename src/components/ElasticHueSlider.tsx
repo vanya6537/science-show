@@ -59,7 +59,7 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
         ></div>
 
         <motion.div
-          className="absolute top-1/2 transform -translate-y-1/2 z-30"
+          className="absolute transform -translate-y-1/2 z-30"
           style={{ left: `${thumbPosition}%` }}
           animate={{ scale: isDragging ? 1.4 : 1 }}
           transition={{ type: 'spring', stiffness: 500, damping: isDragging ? 20 : 30 }}

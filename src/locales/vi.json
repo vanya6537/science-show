@@ -32,7 +32,14 @@
     "guests": "Số Lượng Khách",
     "message": "Thông Tin Bổ Sung",
     "submit": "Đặt Ngay",
-    "success": "Đặt chỗ đã nhận! Chúng tôi sẽ liên hệ sớm."
+    "success": "Đặt chỗ đã nhận! Chúng tôi sẽ liên hệ sớm.",
+    "placeholders": {
+      "name": "Tên của bạn...",
+      "email": "your@email.com",
+      "message": "Cho chúng tôi biết về sự kiện của bạn..."
+    },
+    "guestSingular": "khách",
+    "guestPlural": "khách"
   },
   "footer": {
     "rights": "Tất cả quyền được bảo lưu",

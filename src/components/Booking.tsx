@@ -74,7 +74,7 @@ export const Booking = () => {
         >
           <motion.h2
             variants={itemVariants}
-            className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-neon-purple via-neon-blue to-neon-green bg-clip-text text-transparent animate-glow"
+            className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-neon-purple via-neon-blue to-neon-green bg-clip-text text-transparent"
           >
             {t('booking.title')}
           </motion.h2>
@@ -92,9 +92,9 @@ export const Booking = () => {
           whileInView="visible"
           viewport={{ once: true }}
           onSubmit={handleSubmit}
-          className="bg-gradient-to-br from-neon-purple via-neon-blue to-neon-green p-[4px] rounded-3xl shadow-neon-purple"
+          className="bg-neon-dark rounded-lg border-2 border-neon-purple/30 shadow-md overflow-hidden"
         >
-          <div className="bg-gradient-to-br from-neon-darker to-neon-dark p-8 md:p-16 rounded-3xl space-y-6">
+          <div className="p-8 md:p-12 space-y-6">
             <motion.div variants={itemVariants}>
               <label className="block text-neon-green font-bold mb-3 text-lg">
                 {t('booking.name')} ✨
@@ -106,7 +106,7 @@ export const Booking = () => {
                 onChange={handleChange}
                 required
                 className="w-full bg-neon-dark border-2 border-neon-blue rounded-xl px-5 py-4 text-neon-blue placeholder-neon-blue placeholder-opacity-50 focus:outline-none focus:border-neon-green focus:shadow-neon-green focus:shadow-lg transition-all font-semibold text-lg"
-                placeholder="Your name..."
+                placeholder={t('booking.placeholders.name')}
               />
             </motion.div>
 
@@ -121,7 +121,7 @@ export const Booking = () => {
                 onChange={handleChange}
                 required
                 className="w-full bg-neon-dark border-2 border-neon-blue rounded-xl px-5 py-4 text-neon-blue placeholder-neon-blue placeholder-opacity-50 focus:outline-none focus:border-neon-green focus:shadow-neon-green focus:shadow-lg transition-all font-semibold text-lg"
-                placeholder="your@email.com"
+                placeholder={t('booking.placeholders.email')}
               />
             </motion.div>
 
@@ -151,7 +151,7 @@ export const Booking = () => {
                 >
                   {[...Array(20)].map((_, i) => (
                     <option key={i + 1} value={i + 1}>
-                      {i + 1} {i + 1 === 1 ? 'guest' : 'guests'}
+                      {i + 1} {i + 1 === 1 ? t('booking.guestSingular') : t('booking.guestPlural')}
                     </option>
                   ))}
                 </select>
@@ -168,16 +168,16 @@ export const Booking = () => {
                 onChange={handleChange}
                 rows={5}
                 className="w-full bg-neon-dark border-2 border-neon-blue rounded-xl px-5 py-4 text-neon-blue placeholder-neon-blue placeholder-opacity-50 focus:outline-none focus:border-neon-green focus:shadow-neon-green focus:shadow-lg transition-all resize-none font-semibold text-lg leading-relaxed"
-                placeholder="Tell us about your event..."
+                placeholder={t('booking.placeholders.message')}
               />
             </motion.div>
 
             <motion.button
               variants={itemVariants}
-              whileHover={{ scale: 1.03, boxShadow: '0 0 40px rgba(57, 255, 20, 0.6)' }}
-              whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               type="submit"
-              className="w-full bg-gradient-to-r from-neon-green via-neon-blue to-neon-purple text-neon-dark font-black py-5 rounded-xl shadow-neon-green hover:shadow-neon-purple transition-all duration-300 text-xl"
+              className="w-full bg-neon-green text-neon-dark font-bold py-4 rounded-lg border-2 border-neon-green/50 hover:border-neon-green transition-all duration-300 text-lg"
             >
               🚀 {t('booking.submit')}
             </motion.button>
