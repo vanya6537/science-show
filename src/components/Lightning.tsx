@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface LightningProps {
   hue?: number;
@@ -21,12 +21,32 @@ const Lightning: React.FC<LightningProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const resizeCanvas = () => {
-      canvas.width = canvas.clientWidth;
-      canvas.height = canvas.clientHeight;
+    let lastWidth = 0;
+    let lastHeight = 0;
+    let needsResize = true;
+
+    const resizeCanvasIfNeeded = () => {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      const nextWidth = Math.floor(canvas.clientWidth * dpr);
+      const nextHeight = Math.floor(canvas.clientHeight * dpr);
+      if (nextWidth <= 0 || nextHeight <= 0) return false;
+      if (nextWidth === lastWidth && nextHeight === lastHeight) return false;
+      lastWidth = nextWidth;
+      lastHeight = nextHeight;
+      canvas.width = nextWidth;
+      canvas.height = nextHeight;
+      return true;
     };
-    resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+
+    const onResize = () => {
+      needsResize = true;
+    };
+
+    const ro = typeof ResizeObserver !== 'undefined'
+      ? new ResizeObserver(() => onResize())
+      : null;
+    ro?.observe(canvas);
+    window.addEventListener('resize', onResize);
 
     const gl = canvas.getContext("webgl");
     if (!gl) {
@@ -51,7 +71,7 @@ const Lightning: React.FC<LightningProps> = ({
       uniform float uIntensity;
       uniform float uSize;
       
-      #define OCTAVE_COUNT 10
+      #define OCTAVE_COUNT 8
 
       // Convert HSV to RGB.
       vec3 hsv2rgb(vec3 c) {
@@ -181,10 +201,16 @@ const Lightning: React.FC<LightningProps> = ({
     const uSizeLocation = gl.getUniformLocation(program, "uSize");
 
     const startTime = performance.now();
+    let rafId = 0;
+
     const render = () => {
-      resizeCanvas();
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+      if (needsResize) {
+        needsResize = false;
+        if (resizeCanvasIfNeeded()) {
+          gl.viewport(0, 0, canvas.width, canvas.height);
+          gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+        }
+      }
       const currentTime = performance.now();
       gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
       gl.uniform1f(uHueLocation, hue);
@@ -193,12 +219,17 @@ const Lightning: React.FC<LightningProps> = ({
       gl.uniform1f(uIntensityLocation, intensity);
       gl.uniform1f(uSizeLocation, size);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      requestAnimationFrame(render);
+      rafId = requestAnimationFrame(render);
     };
-    requestAnimationFrame(render);
+
+    // Initial size setup
+    needsResize = true;
+    rafId = requestAnimationFrame(render);
 
     return () => {
-      window.removeEventListener("resize", resizeCanvas);
+      window.removeEventListener('resize', onResize);
+      ro?.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [hue, xOffset, speed, intensity, size]);
 

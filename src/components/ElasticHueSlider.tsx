@@ -23,6 +23,9 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const sliderRef = useRef<HTMLDivElement>(null);
   const draggingRef = useRef(false);
+  const rafRef = useRef<number | null>(null);
+  const clientXRef = useRef<number>(0);
+  const rectRef = useRef<DOMRect | null>(null);
 
   const progress = ((value - min) / (max - min));
   const thumbPosition = progress * 100;
@@ -79,32 +82,45 @@ const ElasticHueSlider: React.FC<ElasticHueSliderProps> = ({
   };
 
   const setFromClientX = (clientX: number) => {
-    const track = sliderRef.current;
-    if (!track) return;
-    const rect = track.getBoundingClientRect();
-    if (rect.width <= 0) return;
+    const rect = rectRef.current ?? sliderRef.current?.getBoundingClientRect() ?? null;
+    if (!rect || rect.width <= 0) return;
     const ratio = clamp((clientX - rect.left) / rect.width, 0, 1);
     const raw = min + ratio * (max - min);
     onChange(snapToStep(raw));
   };
 
+  const scheduleUpdateFromClientX = (clientX: number) => {
+    clientXRef.current = clientX;
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      setFromClientX(clientXRef.current);
+    });
+  };
+
   const handlePointerDown: React.PointerEventHandler<HTMLDivElement> = (e) => {
     draggingRef.current = true;
     setIsDragging(true);
+    rectRef.current = sliderRef.current?.getBoundingClientRect() ?? null;
     (e.currentTarget as HTMLDivElement).setPointerCapture(e.pointerId);
-    setFromClientX(e.clientX);
+    scheduleUpdateFromClientX(e.clientX);
     e.preventDefault();
   };
 
   const handlePointerMove: React.PointerEventHandler<HTMLDivElement> = (e) => {
     if (!draggingRef.current) return;
-    setFromClientX(e.clientX);
+    scheduleUpdateFromClientX(e.clientX);
     e.preventDefault();
   };
 
   const endDrag: React.PointerEventHandler<HTMLDivElement> = (e) => {
     draggingRef.current = false;
     setIsDragging(false);
+    rectRef.current = null;
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
     try {
       (e.currentTarget as HTMLDivElement).releasePointerCapture(e.pointerId);
     } catch {

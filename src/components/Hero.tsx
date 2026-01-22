@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Lightning from './Lightning';
-import ElasticHueSlider from './ElasticHueSlider';
+import { LightningWishControl } from './LightningWishControl';
 import { NeonBackdrop } from './NeonBackdrop';
 
 export const Hero = () => {
@@ -102,7 +102,7 @@ export const Hero = () => {
 
             <motion.div variants={itemVariants} className="mt-6">
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
-                <ElasticHueSlider
+                <LightningWishControl
                   value={lightningHue}
                   onChange={setLightningHue}
                   label={t('hero.lightningSettings')}
@@ -122,7 +122,7 @@ export const Hero = () => {
               <div className="absolute inset-0 opacity-90">
                 <Lightning hue={lightningHue} xOffset={0} speed={1.2} intensity={0.55} size={2.2} />
               </div>
-              <div className="relative p-6 md:p-8 h-[30vh] md:h-full">
+              <div className="relative p-6 md:p-8 h-[30vh] md:h-[60vh]">
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/10 px-3 py-1 text-xs font-medium text-white/80">
                   <span className="text-neon-blue">⚡</span>
                   {t('hero.lightningSettings')}
