@@ -8,3 +8,4 @@ export { FloatingParticles } from './FloatingParticles';
 export { NeonBackdrop } from './NeonBackdrop';
 export { default as Lightning } from './Lightning';
 export { default as ElasticHueSlider } from './ElasticHueSlider';
+export { LightningWishControl } from './LightningWishControl';

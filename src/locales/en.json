@@ -16,6 +16,20 @@
     "colorLabel": "Color: {{name}} ({{hex}})",
     "degrees": "{{value}}°",
     "hintSwipe": "Tip: drag or swipe to adjust",
+    "wishes": [
+      "May this be your brightest moment.",
+      "May your guests say “wow” — twice.",
+      "May kids laugh and adults stay amazed.",
+      "May science feel like magic for one night.",
+      "May everything flow smoothly and beautifully.",
+      "May the energy be only in the emotions.",
+      "May this show be the one everyone talks about.",
+      "May every experiment land perfectly.",
+      "May this day be remembered for a long time.",
+      "May you smile all evening.",
+      "May your celebration be loud—in a good way.",
+      "May the date, the mood, and the guests align."
+    ],
     "colors": {
       "red": "red",
       "orange": "orange",

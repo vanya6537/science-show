@@ -16,6 +16,20 @@
     "colorLabel": "Màu: {{name}} ({{hex}})",
     "degrees": "{{value}}°",
     "hintSwipe": "Mẹo: kéo hoặc vuốt để chỉnh",
+    "wishes": [
+      "Chúc bạn có khoảnh khắc rực rỡ nhất.",
+      "Chúc khách mời phải thốt lên: “Wow!”.",
+      "Chúc các bé cười vui, người lớn cũng bất ngờ.",
+      "Chúc khoa học trở thành phép màu trong một buổi tối.",
+      "Chúc mọi thứ diễn ra mượt mà và đẹp mắt.",
+      "Chúc năng lượng chỉ nằm trong cảm xúc.",
+      "Chúc đây là buổi diễn ai cũng nhắc lại.",
+      "Chúc mỗi thí nghiệm đều hoàn hảo.",
+      "Chúc ngày này được nhớ thật lâu.",
+      "Chúc bạn mỉm cười suốt cả buổi.",
+      "Chúc bữa tiệc “bùng nổ” theo cách tích cực.",
+      "Chúc ngày, tâm trạng và khách mời đều thật hợp."
+    ],
     "colors": {
       "red": "đỏ",
       "orange": "cam",

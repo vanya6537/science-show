@@ -6,6 +6,8 @@ interface LightningProps {
   speed?: number;
   intensity?: number;
   size?: number;
+  smoothHue?: boolean;
+  hueSmoothing?: number;
 }
 
 const Lightning: React.FC<LightningProps> = ({
@@ -14,8 +16,12 @@ const Lightning: React.FC<LightningProps> = ({
   speed = 1,
   intensity = 1,
   size = 1,
+  smoothHue = true,
+  hueSmoothing = 10,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const latestPropsRef = useRef({ hue, xOffset, speed, intensity, size, smoothHue, hueSmoothing });
+  latestPropsRef.current = { hue, xOffset, speed, intensity, size, smoothHue, hueSmoothing };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -48,9 +54,9 @@ const Lightning: React.FC<LightningProps> = ({
     ro?.observe(canvas);
     window.addEventListener('resize', onResize);
 
-    const gl = canvas.getContext("webgl");
+    const gl = canvas.getContext('webgl');
     if (!gl) {
-      console.error("WebGL not supported");
+      console.error('WebGL not supported');
       return;
     }
 
@@ -156,7 +162,7 @@ const Lightning: React.FC<LightningProps> = ({
       gl.shaderSource(shader, source);
       gl.compileShader(shader);
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-        console.error("Shader compile error:", gl.getShaderInfoLog(shader));
+        console.error('Shader compile error:', gl.getShaderInfoLog(shader));
         gl.deleteShader(shader);
         return null;
       }
@@ -176,7 +182,7 @@ const Lightning: React.FC<LightningProps> = ({
     gl.attachShader(program, fragmentShader);
     gl.linkProgram(program);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("Program linking error:", gl.getProgramInfoLog(program));
+      console.error('Program linking error:', gl.getProgramInfoLog(program));
       return;
     }
     gl.useProgram(program);
@@ -188,19 +194,21 @@ const Lightning: React.FC<LightningProps> = ({
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
 
-    const aPosition = gl.getAttribLocation(program, "aPosition");
+    const aPosition = gl.getAttribLocation(program, 'aPosition');
     gl.enableVertexAttribArray(aPosition);
     gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 
-    const iResolutionLocation = gl.getUniformLocation(program, "iResolution");
-    const iTimeLocation = gl.getUniformLocation(program, "iTime");
-    const uHueLocation = gl.getUniformLocation(program, "uHue");
-    const uXOffsetLocation = gl.getUniformLocation(program, "uXOffset");
-    const uSpeedLocation = gl.getUniformLocation(program, "uSpeed");
-    const uIntensityLocation = gl.getUniformLocation(program, "uIntensity");
-    const uSizeLocation = gl.getUniformLocation(program, "uSize");
+    const iResolutionLocation = gl.getUniformLocation(program, 'iResolution');
+    const iTimeLocation = gl.getUniformLocation(program, 'iTime');
+    const uHueLocation = gl.getUniformLocation(program, 'uHue');
+    const uXOffsetLocation = gl.getUniformLocation(program, 'uXOffset');
+    const uSpeedLocation = gl.getUniformLocation(program, 'uSpeed');
+    const uIntensityLocation = gl.getUniformLocation(program, 'uIntensity');
+    const uSizeLocation = gl.getUniformLocation(program, 'uSize');
 
     const startTime = performance.now();
+    let lastFrameTime = startTime;
+    let hueSmoothed = ((latestPropsRef.current.hue % 360) + 360) % 360;
     let rafId = 0;
 
     const render = () => {
@@ -208,16 +216,35 @@ const Lightning: React.FC<LightningProps> = ({
         needsResize = false;
         if (resizeCanvasIfNeeded()) {
           gl.viewport(0, 0, canvas.width, canvas.height);
-          gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+          if (iResolutionLocation) {
+            gl.uniform2f(iResolutionLocation, canvas.width, canvas.height);
+          }
         }
       }
       const currentTime = performance.now();
-      gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
-      gl.uniform1f(uHueLocation, hue);
-      gl.uniform1f(uXOffsetLocation, xOffset);
-      gl.uniform1f(uSpeedLocation, speed);
-      gl.uniform1f(uIntensityLocation, intensity);
-      gl.uniform1f(uSizeLocation, size);
+
+      const dt = Math.min(0.05, (currentTime - lastFrameTime) / 1000.0);
+      lastFrameTime = currentTime;
+      const p = latestPropsRef.current;
+
+      if (iTimeLocation) {
+        gl.uniform1f(iTimeLocation, (currentTime - startTime) / 1000.0);
+      }
+
+      const targetHue = ((p.hue % 360) + 360) % 360;
+      if (p.smoothHue) {
+        const diff = ((targetHue - hueSmoothed + 540) % 360) - 180;
+        const k = 1 - Math.exp(-p.hueSmoothing * dt);
+        hueSmoothed = (hueSmoothed + diff * k + 360) % 360;
+      } else {
+        hueSmoothed = targetHue;
+      }
+
+      if (uHueLocation) gl.uniform1f(uHueLocation, hueSmoothed);
+      if (uXOffsetLocation) gl.uniform1f(uXOffsetLocation, p.xOffset);
+      if (uSpeedLocation) gl.uniform1f(uSpeedLocation, p.speed);
+      if (uIntensityLocation) gl.uniform1f(uIntensityLocation, p.intensity);
+      if (uSizeLocation) gl.uniform1f(uSizeLocation, p.size);
       gl.drawArrays(gl.TRIANGLES, 0, 6);
       rafId = requestAnimationFrame(render);
     };
@@ -231,7 +258,7 @@ const Lightning: React.FC<LightningProps> = ({
       ro?.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, [hue, xOffset, speed, intensity, size]);
+  }, []);
 
   return <canvas ref={canvasRef} className="w-full h-full relative" />;
 };
