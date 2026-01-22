@@ -19,7 +19,8 @@ export const Footer = () => {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="bg-gradient-to-t from-neon-darker to-neon-dark border-t-2 border-neon-blue py-16 relative overflow-hidden"
+      id="contact"
+      className="bg-gradient-to-t from-neon-darker to-neon-dark border-t border-white/10 py-16 relative overflow-hidden"
     >
       {/* Background glow */}
       <motion.div
@@ -54,16 +55,16 @@ export const Footer = () => {
                 onClick={() => handleCopy('viktorvalmontshow@gmail.com', 'email')}
                 className="cursor-pointer hover:text-neon-green transition-all duration-200 flex items-center gap-2 hover:gap-3"
               >
-                📧 {copiedText === 'email' ? '✅ Copied!' : 'viktorvalmontshow@gmail.com'}
+                📧 {copiedText === 'email' ? `✅ ${t('footer.copied')}` : 'viktorvalmontshow@gmail.com'}
               </li>
               <li 
                 onClick={() => handleCopy('+84 949197496', 'phone')}
                 className="cursor-pointer hover:text-neon-green transition-all duration-200 flex items-center gap-2 hover:gap-3"
               >
-                📱 {copiedText === 'phone' ? '✅ Copied!' : '+84 949197496'}
+                📱 {copiedText === 'phone' ? `✅ ${t('footer.copied')}` : '+84 949197496'}
               </li>
               <li className="flex items-center gap-2">
-                📍 Da Nang, Vietnam
+                📍 {t('footer.location')}
               </li>
             </ul>
           </motion.div>
@@ -72,7 +73,7 @@ export const Footer = () => {
             whileHover={{ x: 10, color: '#39FF14' }}
             className="text-neon-blue transition-colors duration-300"
           >
-            <h3 className="text-2xl font-black text-neon-green mb-4">Follow Us</h3>
+            <h3 className="text-2xl font-black text-neon-green mb-4">{t('footer.followUs')}</h3>
             <div className="flex gap-4 flex-wrap">
               {['f', 'i', 't'].map((icon) => (
                 <motion.a
@@ -100,7 +101,7 @@ export const Footer = () => {
                   color: '#00D9FF'
                 }}
                 className="text-neon-blue text-2xl hover:text-neon-cyan transition-all duration-300 font-bold"
-                title="Открыть Telegram бот"
+                title={t('footer.openBotTitle')}
               >
                 🤖
               </motion.a>

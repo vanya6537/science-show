@@ -9,11 +9,28 @@
     "title": "Science Show Experience",
     "subtitle": "Incredible Scientific Magic by Viktor Valmont",
       "neonSubtitle": "Incredible Scientific Magic by Viktor Valmont",
+    "lightningSettings": "Lightning settings",
     "cta": "Book Your Show"
+  },
+  "lightning": {
+    "colorLabel": "Color: {{name}} ({{hex}})",
+    "degrees": "{{value}}°",
+    "hintSwipe": "Tip: drag or swipe to adjust",
+    "colors": {
+      "red": "red",
+      "orange": "orange",
+      "yellow": "yellow",
+      "green": "green",
+      "cyan": "cyan",
+      "blue": "blue",
+      "violet": "violet",
+      "pink": "pink"
+    }
   },
   "shows": {
     "title": "Our Spectacular Shows",
     "book": "Book Show",
+    "interestedIn": "Interested in the show:",
     "dryIce": "Dry Ice Explosion",
     "dryIceDesc": "Witness the mesmerizing fog effects with LED synchronized lighting",
     "liquidNitrogen": "Liquid Nitrogen Magic",
@@ -33,6 +50,8 @@
     "message": "Additional Details",
     "submit": "Book Now",
     "success": "Booking received! We'll contact you soon.",
+    "validationRequired": "Please fill in all required fields",
+    "selectedDate": "Selected date",
     "placeholders": {
       "name": "Your name...",
       "email": "your@email.com",
@@ -41,9 +60,22 @@
     "guestSingular": "guest",
     "guestPlural": "guests"
   },
+  "about": {
+    "title": "Why it works",
+    "subtitle": "We design the show like a product: impressive, safe, and convenient for guests.",
+    "bullets": {
+      "0": "High-impact effects with a clear storyline — kids stay engaged, adults too.",
+      "1": "Safety-first demonstrations and venue prep before the show starts.",
+      "2": "Fast booking flow: pick a date — we confirm the details."
+    }
+  },
   "footer": {
     "rights": "All rights reserved",
     "contact": "Contact us",
-    "description": "Mind-blowing chemical demonstrations with spectacular UV visual effects."
+    "description": "Mind-blowing chemical demonstrations with spectacular UV visual effects.",
+    "copied": "Copied",
+    "location": "Da Nang, Vietnam",
+    "followUs": "Follow us",
+    "openBotTitle": "Open Telegram bot"
   }
 }

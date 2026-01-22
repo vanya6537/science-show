@@ -1,8 +1,10 @@
 export { Header } from './Header';
 export { Hero } from './Hero';
 export { Shows } from './Shows';
+export { About } from './About';
 export { Booking } from './Booking';
 export { Footer } from './Footer';
 export { FloatingParticles } from './FloatingParticles';
+export { NeonBackdrop } from './NeonBackdrop';
 export { default as Lightning } from './Lightning';
 export { default as ElasticHueSlider } from './ElasticHueSlider';

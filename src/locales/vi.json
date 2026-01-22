@@ -9,11 +9,28 @@
     "title": "Trải Nghiệm Khoa Học Tuyệt Vời",
     "subtitle": "Phép Thuật Khoa Học Tuyệt Vời từ Viktor Valmont",
       "neonSubtitle": "Phép Thuật Khoa Học Tuyệt Vời từ Viktor Valmont",
+    "lightningSettings": "Cài đặt tia sét",
     "cta": "Đặt Chương Trình"
+  },
+  "lightning": {
+    "colorLabel": "Màu: {{name}} ({{hex}})",
+    "degrees": "{{value}}°",
+    "hintSwipe": "Mẹo: kéo hoặc vuốt để chỉnh",
+    "colors": {
+      "red": "đỏ",
+      "orange": "cam",
+      "yellow": "vàng",
+      "green": "xanh lá",
+      "cyan": "xanh ngọc",
+      "blue": "xanh dương",
+      "violet": "tím",
+      "pink": "hồng"
+    }
   },
   "shows": {
     "title": "Các Chương Trình Khoa Học Tuyệt Đẹp",
     "book": "Đặt Chương Trình",
+    "interestedIn": "Quan tâm đến chương trình:",
     "dryIce": "Vụ Nổ Khô",
     "dryIceDesc": "Hiệu ứng sương mù quyến rũ với đèn LED được đồng bộ hóa",
     "liquidNitrogen": "Phép Thuật Nitơ Lỏng",
@@ -33,6 +50,8 @@
     "message": "Thông Tin Bổ Sung",
     "submit": "Đặt Ngay",
     "success": "Đặt chỗ đã nhận! Chúng tôi sẽ liên hệ sớm.",
+    "validationRequired": "Vui lòng điền đầy đủ các trường bắt buộc",
+    "selectedDate": "Ngày đã chọn",
     "placeholders": {
       "name": "Tên của bạn...",
       "email": "your@email.com",
@@ -41,9 +60,22 @@
     "guestSingular": "khách",
     "guestPlural": "khách"
   },
+  "about": {
+    "title": "Vì sao chương trình hiệu quả",
+    "subtitle": "Chúng tôi thiết kế chương trình như một sản phẩm: ấn tượng, an toàn và tiện lợi cho khách.",
+    "bullets": {
+      "0": "Hiệu ứng nổi bật và kịch bản rõ ràng — trẻ em và người lớn đều hứng thú.",
+      "1": "Ưu tiên an toàn và chuẩn bị địa điểm trước khi bắt đầu.",
+      "2": "Đặt lịch nhanh: chọn ngày — chúng tôi xác nhận chi tiết."
+    }
+  },
   "footer": {
     "rights": "Tất cả quyền được bảo lưu",
     "contact": "Liên hệ với chúng tôi",
-    "description": "Các cuộc trình diễn hóa học tuyệt vời với hiệu ứng UV ngoạn mục."
+    "description": "Các cuộc trình diễn hóa học tuyệt vời với hiệu ứng UV ngoạn mục.",
+    "copied": "Đã sao chép",
+    "location": "Đà Nẵng, Việt Nam",
+    "followUs": "Theo dõi chúng tôi",
+    "openBotTitle": "Mở bot Telegram"
   }
 }

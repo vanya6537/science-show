@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Lightning from './Lightning';
 import ElasticHueSlider from './ElasticHueSlider';
+import { NeonBackdrop } from './NeonBackdrop';
 
 export const Hero = () => {
   const { t } = useTranslation();
@@ -35,157 +36,104 @@ export const Hero = () => {
     },
   };
 
+  const scrollToShows = () => {
+    const showsSection = document.getElementById('shows');
+    if (showsSection) {
+      showsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="home" className="relative min-h-[92vh] md:min-h-screen bg-neon-darker overflow-hidden flex items-center py-4 sm:py-6 md:py-0">
-      {/* Animated background lightning */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="absolute inset-0 z-0"
-      >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-neon-darker via-neon-dark to-neon-darker opacity-90"></div>
+    <section id="home" className="relative overflow-hidden">
+      <NeonBackdrop intensity="medium" />
 
-        {/* Glowing circle */}
-        <motion.div
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gradient-to-b from-neon-purple/30 to-neon-blue/10 blur-3xl"
-        ></motion.div>
-
-        {/* Central lightning beam */}
-        <div className="absolute top-0 w-full left-1/2 transform -translate-x-1/2 h-full">
-          <Lightning
-            hue={lightningHue}
-            xOffset={0}
-            speed={1.6}
-            intensity={0.7}
-            size={2}
-          />
-        </div>
-
-        {/* Additional glow effects */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-neon-blue rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
-        <div className="absolute bottom-20 right-10 w-72 h-72 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-5" />
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-neon-green rounded-full mix-blend-multiply filter blur-3xl opacity-3" />
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-center"
+          className="min-h-[88vh] md:min-h-screen grid grid-cols-1 md:grid-cols-12 gap-3 items-center py-10 md:py-16"
         >
-          <motion.h1
-            variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-2 sm:mb-3 md:mb-8 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent"
-          >
-            {t('hero.title')}
-          </motion.h1>
+          <div className="md:col-span-7">
+            <motion.h1
+              variants={itemVariants}
+              className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white"
+            >
+              <span className="relative inline-block">
+                <span
+                  aria-hidden
+                  className="absolute -inset-x-6 -inset-y-4 blur-2xl opacity-50"
+                  style={{
+                    background:
+                      'radial-gradient(60% 80% at 50% 50%, rgba(0,217,255,0.22), rgba(179,0,255,0.18), rgba(57,255,20,0.10), transparent 70%)',
+                  }}
+                />
+                <span className="relative bg-gradient-to-r from-neon-blue via-neon-purple to-neon-green bg-clip-text text-transparent drop-shadow-[0_0_18px_rgba(179,0,255,0.35)]">
+                {t('hero.title')}
+                </span>
+              </span>
+            </motion.h1>
 
-          {/* Interactive Hue Slider */}
-          <motion.div
-            variants={itemVariants}
-            className="flex justify-center mb-3 sm:mb-4 md:mb-12"
-          >
-            <ElasticHueSlider
-              value={lightningHue}
-              onChange={setLightningHue}
-              label="⚡ Настройка молнии"
-              min={0}
-              max={360}
-              step={1}
-            />
-          </motion.div>
+            <motion.p
+              variants={itemVariants}
+              className="mt-5 text-base sm:text-lg md:text-xl text-white/75 leading-relaxed max-w-2xl"
+            >
+              {t('hero.subtitle')}
+            </motion.p>
 
-          {/* Neon style subtitle with word-by-word hover gradient effect */}
-          <motion.div
-            variants={itemVariants}
-            className="flex justify-center mb-4 sm:mb-6 md:mb-12"
-          >
-            <div className="text-xl sm:text-2xl md:text-4xl font-black tracking-widest drop-shadow-2xl flex flex-wrap justify-center">
-              {t('hero.neonSubtitle').split(' ').map((word, idx) => (
-                <div key={idx} className={idx === 3 ? 'w-full flex justify-center' : ''}>
-                  <motion.span
-                    animate={{
-                      backgroundImage: [
-                        'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
-                        'linear-gradient(90deg, rgb(179, 0, 255), rgb(57, 255, 20), rgb(0, 217, 255))',
-                        'linear-gradient(90deg, rgb(57, 255, 20), rgb(0, 217, 255), rgb(179, 0, 255))',
-                        'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
-                      ],
-                    }}
-                    transition={{
-                      duration: 6 + idx * 0.5,
-                      repeat: Infinity,
-                      ease: 'linear',
-                    }}
-                    whileHover={{
-                      scale: 1.08,
-                      backgroundImage: 'linear-gradient(90deg, rgb(179, 0, 255), rgb(57, 255, 20), rgb(0, 217, 255))',
-                      textShadow: '0 0 40px rgba(179, 0, 255, 1), 0 0 80px rgba(0, 217, 255, 1), 0 0 120px rgba(57, 255, 20, 0.8)',
-                    }}
-                    className="cursor-pointer inline-block origin-center mx-2 md:mx-3"
-                    style={{
-                      textShadow: `0 0 20px rgba(57, 255, 20, 0.8), 0 0 40px rgba(0, 217, 255, 0.5)`,
-                      backgroundClip: 'text',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      backgroundImage: 'linear-gradient(90deg, rgb(0, 217, 255), rgb(179, 0, 255), rgb(57, 255, 20))',
-                    }}
-                  >
-                    {word}
-                  </motion.span>
+            <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={scrollToBooking}
+                className="px-6 py-3 rounded-xl bg-white text-neon-darker font-semibold border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.25)]"
+              >
+                {t('hero.cta')}
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={scrollToShows}
+                className="px-6 py-3 rounded-xl bg-white/5 text-white/90 font-semibold border border-white/10 hover:bg-white/10"
+              >
+                {t('nav.shows')}
+              </motion.button>
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="mt-6">
+              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm p-5 shadow-[0_20px_60px_rgba(0,0,0,0.35)]">
+                <ElasticHueSlider
+                  value={lightningHue}
+                  onChange={setLightningHue}
+                  label={t('hero.lightningSettings')}
+                  min={0}
+                  max={360}
+                  step={1}
+                />
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="md:col-span-5">
+            <motion.div
+              variants={itemVariants}
+              className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.35)]"
+            >
+              <div className="absolute inset-0 opacity-90">
+                <Lightning hue={lightningHue} xOffset={0} speed={1.2} intensity={0.55} size={2.2} />
+              </div>
+              <div className="relative p-6 md:p-8 h-[30vh] md:h-full">
+                <div className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/10 px-3 py-1 text-xs font-medium text-white/80">
+                  <span className="text-neon-blue">⚡</span>
+                  {t('hero.lightningSettings')}
                 </div>
-              ))}
-            </div>
-          </motion.div>
-
-          <motion.button
-            variants={itemVariants}
-            whileHover={{
-              scale: 1.05,
-              boxShadow: '0 4px 12px rgba(57, 255, 20, 0.3)',
-            }}
-            whileTap={{ scale: 0.95 }}
-            onClick={scrollToBooking}
-            className="relative px-8 md:px-12 py-4 md:py-5 bg-gradient-to-r from-neon-green to-neon-blue text-neon-dark font-black text-base md:text-lg rounded-lg border-2 border-neon-green/50 transition-all duration-300 cursor-pointer"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              🚀 {t('hero.cta')}
-            </span>
-          </motion.button>
+                <div className="mt-4 text-white/80 text-sm leading-relaxed">
+                  {t('hero.neonSubtitle')}
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
-
-        {/* Animated particles */}
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0, 0.8, 0],
-              x: [0, Math.sin(i) * 20, 0],
-            }}
-            transition={{
-              duration: 4 + i,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className={`absolute w-2 h-2 rounded-full ${
-              i % 3 === 0
-                ? 'bg-neon-blue shadow-neon'
-                : i % 3 === 1
-                  ? 'bg-neon-purple shadow-neon-purple'
-                  : 'bg-neon-green shadow-neon-green'
-            }`}
-            style={{
-              left: `${20 + i * 12}%`,
-              top: `${40 + i * 8}%`,
-            }}
-          />
-        ))}
       </div>
     </section>
   );

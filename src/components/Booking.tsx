@@ -27,7 +27,6 @@ export const Booking = () => {
     message: '',
   });
   const [submitted, setSubmitted] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [selectedDate, setSelectedDate] = useState<any>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -51,9 +50,10 @@ export const Booking = () => {
 
     // Listen for storage changes from other tabs/windows
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'bookingShowMessage' && e.newValue) {
-        setFormData(prev => ({ ...prev, message: e.newValue }));
-      }
+      if (e.key !== 'bookingShowMessage') return;
+      const newValue = e.newValue ?? '';
+      if (!newValue) return;
+      setFormData(prev => ({ ...prev, message: newValue }));
     };
 
     // Listen for custom event from Shows component (same tab)
@@ -78,7 +78,7 @@ export const Booking = () => {
     
     // Validate required fields
     if (!formData.name || !formData.email || !formData.date) {
-      alert('Пожалуйста заполните все поля');
+      alert(t('booking.validationRequired'));
       return;
     }
     
@@ -138,7 +138,8 @@ export const Booking = () => {
   };
 
   return (
-    <section id="booking" className="py-24 bg-gradient-to-b from-neon-dark to-neon-darker relative overflow-hidden">
+    <section id="booking" className="py-24 md:py-28 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-neon-dark/80 to-neon-darker" />
       {/* Background gradient orbs */}
       <motion.div
         animate={{ x: [-50, 50, -50], y: [0, 30, 0] }}
@@ -176,9 +177,10 @@ export const Booking = () => {
         <motion.form
           variants={containerVariants}
           initial="hidden"
-          animate={isVisible ? "visible" : "hidden"}
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
           onSubmit={handleSubmit}
-          className="bg-neon-dark rounded-lg border-2 border-neon-purple/30 shadow-md overflow-hidden"
+          className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden"
         >
           <div className="p-8 md:p-12 space-y-6">
             <motion.div variants={itemVariants}>
@@ -224,8 +226,8 @@ export const Booking = () => {
                   />
                 </div>
                 {formData.date && (
-                  <p className="text-neon-green text-sm mt-2">
-                    📅 Выбранная дата: {formData.date}
+                  <p className="text-white/70 text-sm mt-2">
+                    {t('booking.selectedDate')}: {formData.date}
                   </p>
                 )}
               </div>

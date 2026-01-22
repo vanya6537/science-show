@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { NeonBackdrop } from './NeonBackdrop';
 
 interface Show {
   id: string;
@@ -28,9 +29,9 @@ export const Shows = () => {
     }
     
     // Append new show to the list
-    const newMessage = existingMessage 
-      ? existingMessage + `\n✓ ${showTitle}`
-      : `Заинтересован в шоу:\n✓ ${showTitle}`;
+    const newMessage = existingMessage
+      ? `${existingMessage}\n✓ ${showTitle}`
+      : `${t('shows.interestedIn')}\n✓ ${showTitle}`;
     
     sessionStorage.setItem('bookingShowMessage', newMessage);
     
@@ -100,20 +101,17 @@ export const Shows = () => {
   };
 
   return (
-    <section id="shows" className="py-20 bg-gradient-to-b from-neon-darker to-neon-dark relative overflow-hidden">
-      {/* Background animation */}
-      <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-        className="absolute top-1/2 left-0 w-96 h-96 bg-neon-purple rounded-full mix-blend-multiply filter blur-3xl opacity-10"
-      />
+    <section id="shows" className="py-20 md:py-28 relative">
+      <NeonBackdrop intensity="soft" className="opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-b from-neon-darker/60 to-neon-dark/60" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <motion.h2
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl md:text-7xl font-black text-center mb-16 bg-gradient-to-r from-neon-green via-neon-purple to-neon-blue bg-clip-text text-transparent animate-glow"
+          viewport={{ once: true, margin: '-100px' }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl md:text-4xl font-extrabold tracking-tight text-white text-center mb-8"
         >
           {t('shows.title')}
         </motion.h2>
@@ -129,12 +127,9 @@ export const Shows = () => {
             <motion.div
               key={show.id}
               variants={cardVariants}
-              whileHover={{ 
-                y: -6,
-                boxShadow: '0 8px 20px rgba(57, 255, 20, 0.2)',
-              }}
+              whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className={`bg-neon-dark rounded-lg border-2 border-neon-blue/30 overflow-hidden cursor-pointer group relative h-full shadow-md`}
+              className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm overflow-hidden cursor-pointer group relative h-full"
             >
               <div className="px-6 md:px-8 py-8 md:py-10 h-full flex flex-col">
                 <motion.div
@@ -143,10 +138,10 @@ export const Shows = () => {
                 >
                   {show.icon}
                 </motion.div>
-                <h3 className="text-xl md:text-2xl font-bold text-neon-green mb-3 group-hover:text-neon-blue transition-colors">
+                <h3 className="text-xl md:text-2xl font-semibold text-white mb-3">
                   {show.title}
                 </h3>
-                <p className="text-neon-blue opacity-80 group-hover:opacity-100 font-medium transition-opacity text-sm md:text-base leading-relaxed flex-grow">
+                <p className="text-white/70 group-hover:text-white/80 transition-colors text-sm md:text-base leading-relaxed flex-grow">
                   {show.description}
                 </p>
                 
@@ -155,9 +150,9 @@ export const Shows = () => {
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => handleShowBooking(show.title)}
-                  className="mt-6 w-full bg-neon-green text-neon-dark font-bold py-3 rounded-lg border-2 border-neon-green/50 hover:border-neon-green transition-all duration-300"
+                  className="mt-6 w-full bg-white text-neon-darker font-semibold py-3 rounded-xl border border-white/10 hover:bg-white/90 transition-all duration-200"
                 >
-                  📋 {t('shows.book') || 'Book'}
+                  {t('shows.book')}
                 </motion.button>
               </div>
             </motion.div>

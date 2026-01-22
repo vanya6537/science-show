@@ -1,23 +1,23 @@
 import './index.css';
-import i18n from './i18n/config';
-import { Suspense, useState } from 'react';
-import { Header, Hero, Shows, Booking, Footer, FloatingParticles } from './components';
+import { Suspense } from 'react';
+import { Header, Hero, Shows, About, Booking, Footer, FloatingParticles } from './components';
 
 function App() {
-  const [_language, setLanguage] = useState('en');
-
-  const handleLanguageChange = (lang: string) => {
-    setLanguage(lang);
+  const handleLanguageChange = (_lang: string) => {
+    // i18n change handled inside Header; this is kept for API compatibility
   };
 
   return (
-    <Suspense fallback={<div className="bg-neon-dark min-h-screen flex items-center justify-center text-neon-blue">Loading...</div>}>
-      <div className="bg-neon-dark min-h-screen text-white overflow-hidden">
+    <Suspense fallback={<div className="bg-neon-darker min-h-screen flex items-center justify-center text-white/70">Loading…</div>}>
+      <div className="min-h-screen text-white overflow-hidden bg-neon-darker">
         <FloatingParticles />
         <Header onLanguageChange={handleLanguageChange} />
-        <Hero />
-        <Shows />
-        <Booking />
+        <main>
+          <Hero />
+          <Shows />
+          <About />
+          <Booking />
+        </main>
         <Footer />
       </div>
     </Suspense>
